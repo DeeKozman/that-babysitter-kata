@@ -9,8 +9,9 @@ Download or clone repo
 
 In order to install, run in bash terminal:
 
-npm install
-npm run test
+```npm install```
+
+```npm run test```
 
 # Background
 
