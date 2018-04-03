@@ -22,20 +22,7 @@ describe('App Tests', () => {
             assert.equal(results, 12);
         });
 
-        it('should error on invalid start time', () => {
-            expect(app.bind(null, new moment('2018-01-01T14:00:00'), new moment('2018-01-02T18:00:00'))).to.throw('Invalid shift start.');
-        });
 
-        it('should error on invalid end time', () => {
-            expect(app.bind(null, new moment('2018-01-01T17:00:00'), new moment('2018-01-01T06:00:00'))).to.throw('Invalid shift end.');
-        });
-
-        it('should error on invalid shift', () => {
-            // Long shift:
-            expect(app.bind(null, new moment('2018-01-01T17:00:00'), new moment('2018-01-02T18:00:00'))).to.throw('Invalid shift length.');
-            // End before start:
-            expect(app.bind(null, new moment('2018-01-02T17:00:00'), new moment('2018-01-01T18:00:00'))).to.throw('Invalid shift length.');
-        });
 
         it('should be paid $24 for two hours of work before bedtime at the rate of $12 an hour', () => {
             var results = app(new moment('2018-01-01T17:00:00'), new moment('2018-01-01T19:00:00'));
@@ -60,6 +47,12 @@ describe('App Tests', () => {
             assert.equal(28, results);
         });
 
+        it('should be paid $68 for 3 hour before bedtime at the rate of $12 an hour and 4 hours after bedtime at the rate of $8 an hour', () => {
+            var results = app(new moment('2018-01-01T17:00:00'), new moment('2018-01-01T24:00:00'));
+
+            assert.equal(68, results);
+        });
+
         it('should be paid $16 for 1 hour after midnight at the rate of $16 an hour', () => {
             var results = app(new moment('2018-01-02T00:00:00'), new moment('2018-01-02T01:00:00'));
 
@@ -75,7 +68,7 @@ describe('App Tests', () => {
         it('should be paid $64 for 4 hours after midnight at the rate of $16 an hour', () => {
             var results = app(new moment('2018-01-02T00:00:00'), new moment('2018-01-02T04:00:00'));
 
-            assert.equal(64, results); 
+            assert.equal(64, results);
         });
 
         it('should not be paid for not working any hours', () => {
@@ -84,6 +77,28 @@ describe('App Tests', () => {
             assert.equal(0, results);
 
         });
+
+        it('should be paid $132 for 3 hours before bedtime at the rate of $12 an hour and 4 hours after bedtime at the rate of $8 an hour and 4 hours after midnight at the rate of $16 an hour', () => {
+            var results = app(new moment('2018-01-01T17:00:00'), new moment('2018-01-02T04:00:00'));
+
+            assert.equal(132, results);
+        });
     });
-    
+    describe('The App', () => {
+
+        it('should error on invalid start time', () => {
+            expect(app.bind(null, new moment('2018-01-01T14:00:00'), new moment('2018-01-02T18:00:00'))).to.throw('Invalid shift start.');
+        });
+
+        it('should error on invalid end time', () => {
+            expect(app.bind(null, new moment('2018-01-01T17:00:00'), new moment('2018-01-01T06:00:00'))).to.throw('Invalid shift end.');
+        });
+
+        it('should error on invalid shift', () => {
+            // Long shift:
+            expect(app.bind(null, new moment('2018-01-01T17:00:00'), new moment('2018-01-02T18:00:00'))).to.throw('Invalid shift length.');
+            // End before start:
+            expect(app.bind(null, new moment('2018-01-02T17:00:00'), new moment('2018-01-01T18:00:00'))).to.throw('Invalid shift length.');
+        });
+    });
 });
