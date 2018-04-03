@@ -1,3 +1,5 @@
-module.exports = function() {
+module.exports = {
+    sayHelloWorld: function() {
     return 'hello world';
+    }
 }
