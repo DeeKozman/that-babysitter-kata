@@ -49,13 +49,13 @@ describe('App Tests', () => {
         });
 
         it('should be paid $20 for 1 hour before bedtime at the rate of $12 an hour and 1 hour after bedtime at the rate of $8 an hour', () => {
-            var results = app(new moment('2018-01-01T19:00:00'), new moment('2018-01-01T20:00:00'));
+            var results = app(new moment('2018-01-01T19:00:00'), new moment('2018-01-01T21:00:00'));
 
             assert.equal(20, results);
         });
 
         it('should be paid $28 for 1 hour before bedtime at the rate of $12 an hour and 2 hours after bedtime at the rate of $8 an hour', () => {
-            var results = app(new moment('2018-01-01T19:00:00'), new moment('2018-01-01T21:00:00'));
+            var results = app(new moment('2018-01-01T19:00:00'), new moment('2018-01-01T22:00:00'));
 
             assert.equal(28, results);
         });
@@ -67,7 +67,7 @@ describe('App Tests', () => {
         });
 
         it('should be paid $24 for 1 hour after bedtime before midnight and 1 hour after midnight', () => {
-            var results = app(new moment('2018-01-01T23:00:00'), new moment('2018-01-02T00:00:00'));
+            var results = app(new moment('2018-01-01T23:00:00'), new moment('2018-01-02T01:00:00'));
 
             assert.equal(24, results);
         });
