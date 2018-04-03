@@ -6,12 +6,14 @@ const bedtimeToMidnightPay = 8;
 const midnightToEndOfJobPay = 16;
 //Vars
 var moment = require('moment');
+require('moment-round');
 
 
 module.exports = function (start, finish, bed) {
-    var startTime = transformHours(start.getHours());
-    var finishTime = transformHours(finish.getHours());
-    var bedTime = transformHours(bed.getHours());
+    var m = new moment();
+    var startTime = m.ceil(start, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(start.getHours());
+    var finishTime = moment.ceil(finish, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(finish.getHours());
+    var bedTime = moment.ceil(bed, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(bed.getHours());
     var pay = 0;
     for (var i = startTime; i < finishTime; i++) {
         pay += findTheRate(i, bedTime);

@@ -10,7 +10,8 @@ const pay = require('../app').pay;
 const startTimeToBedtimePay = require('../app').startTimeToBedtimePay;
 const bedtimeToMidnightPay = require('../app').bedtimeToMidnightPay;
 const midnightToEndOfJobPay = require('../app').midnightToEndOfJobPay;
-const moment = require('../app').moment;
+const moment = require('moment');
+require('moment-round');
 
 describe('App Tests', () => {
     describe('The BabySitter', () => {
