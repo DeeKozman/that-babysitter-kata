@@ -4,6 +4,9 @@
 const startTimeToBedtimePay = 12;
 const bedtimeToMidnightPay = 8;
 const midnightToEndOfJobPay = 16;
+//Vars
+var moment = require('moment');
+
 
 module.exports = function (start, finish, bed) {
     var startTime = transformHours(start.getHours());

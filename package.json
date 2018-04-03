@@ -14,7 +14,7 @@
     "url": "git+https://github.com/DeeKozman/that-babysitter-kata.git"
   },
   "author": "Dan Koscielak <dankoscielak@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DeeKozman/that-babysitter-kata/issues"
   },
