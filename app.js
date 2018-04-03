@@ -4,29 +4,68 @@
 const startTimeToBedtimePay = 12;
 const bedtimeToMidnightPay = 8;
 const midnightToEndOfJobPay = 16;
+const startTimeHour = 17;
+const bedTimeHour = 20;
+const endTimeHour = 4;
 //Vars
 var moment = require('moment');
 require('moment-round');
 
 
-module.exports = function (start, finish, bed) {
-    var m = new moment();
-    var startTime = m.ceil(start, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(start.getHours());
-    var finishTime = moment.ceil(finish, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(finish.getHours());
-    var bedTime = moment.ceil(bed, 'hours').format( 'YYYY-MM-DD HH:mm:ss.SSS' ); ; //transformHours(bed.getHours());
+module.exports = function (start, finish) {
+    console.log('Time Inputs:')
+    console.log(start);
+    console.log(finish);
+
+    var roundedStart = start.floor(start, 'minutes');
+    var roundedFinish = finish.ceil(finish, 'minutes');
+
+    console.log('Rounded Times:')
+    console.log(roundedStart);
+    console.log(roundedFinish);
+
+    var shiftLength = roundedFinish.unix() - roundedStart.unix();
+
+    console.log('Shift Length:')
+    console.log(shiftLength);
+
+    // Check if the shift starts in between the correct hours:
+    if(isInvalidShiftTime(roundedStart))
+        throw new Error('Invalid shift start.');
+
+    // Check if the shift ends in between the correct hours:
+    if(isInvalidShiftTime(roundedFinish))
+        throw new Error('Invalid shift end.');
+
+    // Check if the shift spans multiple days:
+    if(shiftLength >= 11 * 60 * 60 || shiftLength < 0)
+        throw new Error('Invalid shift length.');
+
+    var duration = moment.duration(shiftLength, 'seconds');
+    console.log('Duration:');
+    console.log(duration.asHours());
+    
     var pay = 0;
-    for (var i = startTime; i < finishTime; i++) {
-        pay += findTheRate(i, bedTime);
-    };
 
-    /*console.info('Start-time: ' + transformHours(start.getHours()));
-    console.info('Finish-time: ' + transformHours(finish.getHours()));
-    console.info('Bedtime:    ' + transformHours(bed.getHours()));
-    console.info('-----------------')
-    console.info(`Total Pay:   $${pay}`)*/
+    for(var hour = 0; hour < duration.asHours(); hour++) {
+        var hourTime = roundedStart.clone().add(hour, 'hours');
+
+        console.log(hourTime);
+        if(hourTime.hours() < bedTimeHour && hourTime.hours() > endTimeHour)
+            pay += startTimeToBedtimePay;
+        else if(hourTime.hours() >= bedTimeHour && hourTime.hours() < 24)
+            pay += bedtimeToMidnightPay;
+        else
+            pay += midnightToEndOfJobPay;
+    }
+    
+
     return pay;
-
 };
+
+function isInvalidShiftTime(time) {
+    return time.hours() < startTimeHour && time.hours() > endTimeHour;
+}
 
 function findTheRate(hour, bedTime) {
     if (hour < 12 && hour < bedTime) {
@@ -36,8 +75,4 @@ function findTheRate(hour, bedTime) {
     } else {
         return midnightToEndOfJobPay;
     }
-};
-
-function transformHours(time) {
-    return time < 5 ? time + 12 : time;
 };
