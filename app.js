@@ -21,13 +21,13 @@ module.exports = function (start, finish) {
     var roundedFinish = finish.ceil(finish, 'minutes');
 
     //console.log('Rounded Times:')
-    //console.log(roundedStart);
-    //console.log(roundedFinish);
+    console.log(roundedStart);
+    console.log(roundedFinish);
 
     var shiftLength = roundedFinish.unix() - roundedStart.unix();
 
-    //console.log('Shift Length:')
-    //console.log(shiftLength);
+    console.log('Shift Length:')
+    console.log(shiftLength);
 
     // Check if the shift starts in between the correct hours:
     if (isInvalidShiftTime(roundedStart))
@@ -38,7 +38,7 @@ module.exports = function (start, finish) {
         throw new Error('Invalid shift end.');
 
     // Check if the shift spans multiple days:
-    if (shiftLength >= 11 * 60 * 60 || shiftLength < 0)
+    if (shiftLength >= 11.001 * 60 * 60 || shiftLength < 0)
         throw new Error('Invalid shift length.');
 
     var duration = moment.duration(shiftLength, 'seconds');

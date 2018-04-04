@@ -78,7 +78,7 @@ describe('App Tests', () => {
 
         });
 
-        xit('should be paid $132 for 3 hours before bedtime at the rate of $12 an hour and 4 hours after bedtime at the rate of $8 an hour and 4 hours after midnight at the rate of $16 an hour', () => {
+        it('should be paid $132 for 3 hours before bedtime at the rate of $12 an hour and 4 hours after bedtime at the rate of $8 an hour and 4 hours after midnight at the rate of $16 an hour', () => {
             var results = app(new moment('2018-01-01T17:00:00'), new moment('2018-01-02T04:00:00'));
 
             assert.equal(132, results);
