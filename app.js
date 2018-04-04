@@ -38,7 +38,7 @@ module.exports = function (start, finish) {
         throw new Error('Invalid shift end.');
 
     // Check if the shift spans multiple days:
-    if (shiftLength >= 11.001 * 60 * 60 || shiftLength < 0)
+    if (shiftLength > 11 * 60 * 60 || shiftLength < 0)
         throw new Error('Invalid shift length.');
 
     var duration = moment.duration(shiftLength, 'seconds');
